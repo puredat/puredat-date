@@ -97,9 +97,9 @@
 			
 			ready: function() {
 				// Bug fix. The field is editable and should not
-				this.$.datePicker.querySelector("#input").setAttribute("readonly", true);
+				this.$.datePicker.$.input.setAttribute("readonly", true);
 				
-				this.$.datePicker.querySelector("#inputcontainer").setAttribute("always-float-label", true);
+				this.$.datePicker.$.inputcontainer.setAttribute("always-float-label", true);
 				
 				this.$.datePicker.i18n = {
 					monthNames: [

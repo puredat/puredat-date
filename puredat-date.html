@@ -18,15 +18,17 @@
 			}
 		</style>
 		
-		<vaadin-date-picker
-				id="datePicker"
-				label="[[label]]"
-				value="{{value}}"
-				invalid="[[_isInvalid(errorMessage)]]"
-				readonly="[[readOnly]]"
-				on-value-changed="valueChangedHandler">
-		</vaadin-date-picker>
-		<label class="error-message">[[errorMessage]]</label>			
+		<div>
+			<vaadin-date-picker
+					id="datePicker"
+					label="[[label]]"
+					value="{{value}}"
+					invalid="[[_isInvalid(errorMessage)]]"
+					readonly="[[readOnly]]"
+					on-value-changed="valueChangedHandler">
+			</vaadin-date-picker>
+			<label class="error-message">[[errorMessage]]</label>		
+		</div>			
 	</template>
 	
 	<script>

@@ -96,6 +96,11 @@
 			},
 			
 			ready: function() {
+				// Bug fix. The field is editable and should not
+				this.$.datePicker.querySelector("#input").setAttribute("readonly", true);
+				
+				this.$.datePicker.querySelector("#inputcontainer").setAttribute("always-float-label", true);
+				
 				this.$.datePicker.i18n = {
 					monthNames: [
 						"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -119,9 +124,6 @@
 			},
 			
 			valueChangedHandler: function(event) {
-				// Bug fix. El campo es editable en la versión que estoy utilizando y no debería serlo
-				this.$.datePicker.querySelector("#input").setAttribute("readonly", true);
-				this.$.datePicker.querySelector("#inputcontainer").setAttribute("always-float-label", true);
 			}
 		});
 	</script>

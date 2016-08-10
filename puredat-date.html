@@ -1,34 +1,128 @@
 <link rel="import" href="../polymer/polymer.html">
-
+<link rel="import" href="../vaadin-date-picker/vaadin-date-picker.html">
 <!--
-`puredat-date`
-
-
-@demo demo/index.html 
+	`puredat-date` "DATE" type, "ONE" cardinality widget.
+	
+	@demo demo/index.html 
 -->
-
 <dom-module id="puredat-date">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>TO-DO [[prop1]]</h2>
-  </template>
-
-  <script>
-    Polymer({
-
-      is: 'puredat-date',
-
-      properties: {
-        prop1: {
-          type: String,
-          value: 'puredat-date',
-        },
-      },
-
-    });
-  </script>
+	<template>
+		<style>
+			vaadin-date-picker {
+				padding-right: 10px;
+			}
+			
+			.error-message {
+				display: inline-block;
+				color: #dd2c00;
+			}
+		</style>
+		
+		<vaadin-date-picker
+				id="datePicker"
+				label="[[label]]"
+				value="{{value}}"
+				invalid="[[_isInvalid(errorMessage)]]"
+				readonly="[[readOnly]]"
+				on-value-changed="valueChangedHandler">
+		</vaadin-date-picker>
+		<label class="error-message">[[errorMessage]]</label>			
+	</template>
+	
+	<script>
+		Polymer({
+			is: 'puredat-date',
+			
+			properties: {
+				
+				/** Name. */
+				name: {
+					type: String
+				},
+				
+				/** Min value. */
+				minValue: {
+					type: String
+				},
+				
+				/** Max value. */
+				maxValue: {
+					type: String
+				},
+				
+				/** Descriptive label. */
+				label: {
+					type: String
+				},
+				
+				/** Value. */
+				value: {
+					type: String,
+					notify: true
+				},
+				
+				/** Error message. */
+				errorMessage: {
+					type: String
+				},
+				
+				/** Number of columns in a row of 10 columns. */
+				cols: {
+					type: Number,
+					value: 5,
+					observer: '_colsChanged'
+				},
+				
+				/** Read only. */
+				readOnly: {
+					type: Boolean,
+					value: false
+				}
+			},
+			
+			_colsChanged: function(newValue, oldValue) {
+				this.style.minWidth = (50 * newValue) + "px";
+				this.style.flex = (10 * newValue) + "%";
+			},
+			
+			/**
+			 * Returns if the field is valid.
+			 * @param {String} errorMessage The error message.
+			 * @return {Boolean} If the input field is valid.
+			 */
+			_isInvalid: function(errorMessage) {
+				return errorMessage != null
+						&& errorMessage != "";
+			},
+			
+			ready: function() {
+				this.$.datePicker.i18n = {
+					monthNames: [
+						"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+					],
+					weekdaysShort: [
+						"Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
+					],
+					firstDayOfWeek: 1,
+					today: "Hoy",
+					cancel: "Cancelar",
+					formatDate: function(d) {
+						var monthNames = [
+							"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+						]; 
+						return d.getDate() + " de " + monthNames[d.getMonth()] + " de " + d.getFullYear();
+					},
+					formatTitle: function(monthName, fullYear) {
+						return monthName + " de " + fullYear;
+					}
+				};
+			},
+			
+			valueChangedHandler: function(event) {
+				// Bug fix. El campo es editable en la versión que estoy utilizando y no debería serlo
+				this.$.datePicker.querySelector("#input").setAttribute("readonly", true);
+				this.$.datePicker.querySelector("#inputcontainer").setAttribute("always-float-label", true);
+			}
+		});
+	</script>
 </dom-module>

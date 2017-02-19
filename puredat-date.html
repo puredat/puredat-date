@@ -92,30 +92,41 @@
 			},
 			
 			ready: function() {
-				// Bug fix. The field is editable and should not
-				this.$.datePicker.$.input.setAttribute("readonly", true);
-				
 				this.$.datePicker.$.inputcontainer.setAttribute("always-float-label", true);
 				
-				this.$.datePicker.i18n = {
-					monthNames: [
-						"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-					],
-					weekdaysShort: [
-						"Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
-					],
-					firstDayOfWeek: 1,
-					today: "Hoy",
-					cancel: "Cancelar",
-					formatDate: function(d) {
-						var monthNames = [
-							"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-						]; 
-						return d.getDate() + " de " + monthNames[d.getMonth()] + " de " + d.getFullYear();
-					},
-					formatTitle: function(monthName, fullYear) {
-						return monthName + " de " + fullYear;
+				this.$.datePicker.i18n.calendar = "Calendario";
+				this.$.datePicker.i18n.cancel = "Cancelar";
+				this.$.datePicker.i18n.clear = "Reiniciar";
+				this.$.datePicker.i18n.firstDayOfWeek = 1;
+				this.$.datePicker.i18n.monthNames = [
+					"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+				];
+				this.$.datePicker.i18n.today = "Hoy";
+				this.$.datePicker.i18n.week = "Semana";
+				this.$.datePicker.i18n.weekdaysShort = [
+					"Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
+				];
+				this.$.datePicker.i18n.weekdays = [
+					"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
+				];
+
+				this.$.datePicker.i18n.formatDate = function(d) {
+					return [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/');
+				};
+				
+				this.$.datePicker.i18n.parseDate = function(text) {
+					var parts = text.split('/');
+					if (parts.length === 3) {
+						var date = new Date(0, 0);
+						date.setFullYear(parseInt(parts[2]));
+						date.setMonth(parseInt(parts[1]) - 1);
+						date.setDate(parseInt(parts[0]));
+						return date;
 					}
+				};
+				
+				this.$.datePicker.i18n.formatTitle = function(monthName, fullYear) {
+					return monthName + ' de ' + fullYear;
 				};
 			},
 			

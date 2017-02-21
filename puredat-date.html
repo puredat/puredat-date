@@ -22,6 +22,8 @@
 			}
 		</style>
 		
+		<iron-a11y-keys keys="esc" on-keys-pressed="escapeHandler"></iron-a11y-keys>
+		
 		<div class="container">
 			<vaadin-date-picker
 					id="datePicker"
@@ -74,6 +76,12 @@
 					type: Boolean,
 					value: false
 				}
+			},
+			
+			escapeHandler: function(event) {
+				// TO-DO Verificar si está abierto el calendario y si no lo está, propagar el evento normalmente. 
+				event.detail.keyboardEvent.preventDefault();
+				event.detail.keyboardEvent.stopPropagation();
 			},
 			
 			_colsChanged: function(newValue, oldValue) {

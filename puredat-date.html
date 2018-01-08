@@ -1,5 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../vaadin-date-picker/vaadin-date-picker.html">
+<script src="../moment/moment.js"></script>
+
 <!--
 	`puredat-date` "DATE" type, "ONE" cardinality widget.
 	
@@ -31,7 +33,9 @@
 					value="{{value}}"
 					invalid="[[_isInvalid(errorMessage)]]"
 					readonly="[[readOnly]]"
-					on-value-changed="valueChangedHandler">
+					on-value-changed="valueChangedHandler"
+					store-date-format="[[storeDateFormat]]"
+					display-date-format="[[displayDateFormat]]">
 			</vaadin-date-picker>
 			<label class="error-message">[[errorMessage]]</label>		
 		</div>			
@@ -75,6 +79,16 @@
 				readOnly: {
 					type: Boolean,
 					value: false
+				},
+
+				storeDateFormat: {
+					type: String,
+					value: "YYYY-MM-DD"
+				},
+
+				displayDateFormat: {
+					type: String,
+					value: "DD/MM/YYYY"
 				}
 			},
 			
@@ -100,6 +114,8 @@
 			},
 			
 			ready: function() {
+				var me = this;
+
 				this.$.datePicker.$.inputcontainer.setAttribute("always-float-label", true);
 				
 				this.$.datePicker.i18n.calendar = "Calendario";
@@ -119,18 +135,11 @@
 				];
 
 				this.$.datePicker.i18n.formatDate = function(d) {
-					return [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/');
+					return moment(d).format(me.displayDateFormat);
 				};
 				
 				this.$.datePicker.i18n.parseDate = function(text) {
-					var parts = text.split('/');
-					if (parts.length === 3) {
-						var date = new Date(0, 0);
-						date.setFullYear(parseInt(parts[2]));
-						date.setMonth(parseInt(parts[1]) - 1);
-						date.setDate(parseInt(parts[0]));
-						return date;
-					}
+					return moment(moment(text, me.displayDateFormat).format(me.storeDateFormat)).toDate();
 				};
 				
 				this.$.datePicker.i18n.formatTitle = function(monthName, fullYear) {

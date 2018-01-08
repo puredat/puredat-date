@@ -3,7 +3,8 @@
   "main": "puredat-date.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "vaadin-date-picker": "^1.2.1"
+    "vaadin-date-picker": "^1.2.1",
+    "moment": "^2.20.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

@@ -88,7 +88,8 @@
 
 				displayDateFormat: {
 					type: String,
-					value: "DD/MM/YYYY"
+					value: "DD/MM/YYYY",
+			        observer: '_displayDateFormatChanged'
 				}
 			},
 			
@@ -137,18 +138,28 @@
 				this.$.datePicker.i18n.formatDate = function(d) {
 					return moment(d).format(me.displayDateFormat);
 				};
-				
+
 				this.$.datePicker.i18n.parseDate = function(text) {
 					return moment(moment(text, me.displayDateFormat).format(me.storeDateFormat)).toDate();
 				};
-				
+
 				this.$.datePicker.i18n.formatTitle = function(monthName, fullYear) {
 					return monthName + ' de ' + fullYear;
 				};
 			},
-			
+
 			valueChangedHandler: function(event) {
-			}
+			},
+
+      _displayDateFormatChanged: function(newDisplayDateFormar) {
+      	if(newDisplayDateFormar != null && this.value != null) {
+          var dateToDisplay = moment(this.value,this.storeDateFormat).utc().utcOffset(this.displayTimezone).format(this.displayDateFormat);
+          this.set("displayValue", dateToDisplay.length > this.maxlength ? dateToDisplay.substring(0,this.maxlength) : dateToDisplay);
+      	} else {
+      		this.set("displayValue","");
+      	}
+
+      },
 		});
 	</script>
 </dom-module>

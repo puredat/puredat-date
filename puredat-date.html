@@ -88,8 +88,7 @@
 
 				displayDateFormat: {
 					type: String,
-					value: "DD/MM/YYYY",
-					observer: '_displayDateFormatChanged'
+					value: "DD/MM/YYYY"
 				}
 			},
 			
@@ -149,15 +148,6 @@
 			},
 
 			valueChangedHandler: function(event) {
-			},
-
-			_displayDateFormatChanged: function(newDisplayDateFormar) {
-				if(newDisplayDateFormar != null && this.value != null) {
-				  var dateToDisplay = moment(this.value,this.storeDateFormat).utc().utcOffset(this.displayTimezone).format(this.displayDateFormat);
-				  this.set("displayValue", dateToDisplay.length > this.maxlength ? dateToDisplay.substring(0,this.maxlength) : dateToDisplay);
-				} else {
-					this.set("displayValue","");
-				}
 			}
 		});
 	</script>
